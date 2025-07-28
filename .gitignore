@@ -1,0 +1,17 @@
+# Python
+venv/
+__pycache__/
+*.py[cod]
+*.db
+*.sqlite3
+
+# React / Node
+math-ui/node_modules/
+math-ui/dist/
+math-ui/.env*
+
+# IDE / OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
