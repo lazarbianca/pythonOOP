@@ -1,6 +1,7 @@
 import sqlite3
 from datetime import datetime
 import uuid
+import logging
 
 DB_PATH = "jobs.db"
 
@@ -33,10 +34,11 @@ def create_job(operation: str, input_data: str) -> str:
     return job_id
 
 
-def update_job(job_id: str, result: float | int):
+def update_job(job_id: str, result):
+    logging.info("update_job %s (result ready)", job_id) 
     with sqlite3.connect(DB_PATH) as conn:
         conn.execute(
-            "UPDATE jobs SET result = ?, status = 'done' WHERE job_id = ?",
+            "UPDATE jobs SET result=?, status='done' WHERE job_id=?",
             (str(result), job_id)
         )
         conn.commit()

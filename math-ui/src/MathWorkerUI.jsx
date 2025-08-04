@@ -1,9 +1,5 @@
 import React, { useState, useCallback } from "react";
 
-/*
-  Layout: titlu deasupra cardurilor, totul centrat pe pagină.
-  Cardurile sunt alăturate, se înfășoară dacă spațiul nu permite.
-*/
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
@@ -20,7 +16,7 @@ async function submitJob(path, payload) {
     if (!resp.ok) throw new Error(`Job ${job_id} error: ${resp.status}`);
     const data = await resp.json();
     if (data.result === null) {
-      if (tries > 30) throw new Error("Timeout");
+      if (tries > 600) throw new Error("Timeout");
       await new Promise((s) => setTimeout(s, 500));
       return poll(tries + 1);
     }
@@ -59,6 +55,15 @@ const buttonStyle = {
   minWidth: 100
 };
 
+const resultStyle = {
+  marginTop: 12,
+  wordBreak: "break-all",   
+  whiteSpace: "pre-wrap",  
+  fontFamily: "monospace",
+  maxHeight: 120,        
+  overflowY: "auto"
+};
+
 function Box({ title, children }) {
   return (
     <div style={cardStyle}>
@@ -94,7 +99,11 @@ function PowForm() {
       <button onClick={onSubmit} disabled={loading} style={{ ...buttonStyle, opacity: loading ? 0.6 : 1 }}>
         {loading ? "Calcul..." : "Calculează"}
       </button>
-      {result !== null && <p style={{ marginTop: 12 }}>Rezultat: {result}</p>}
+      {result !== null && (
+        <div style={resultStyle}>
+          <strong>Rezultat:</strong> {result}
+        </div>
+      )}
     </Box>
   );
 }
@@ -121,7 +130,11 @@ function FactorialForm() {
       <button onClick={onSubmit} disabled={loading} style={{ ...buttonStyle, opacity: loading ? 0.6 : 1 }}>
         {loading ? "Calcul..." : "Calculează"}
       </button>
-      {result !== null && <p style={{ marginTop: 12 }}>Rezultat: {result}</p>}
+     {result !== null && (
+        <div style={resultStyle}>
+          <strong>Rezultat:</strong> {result}
+        </div>
+      )}
     </Box>
   );
 }
@@ -148,7 +161,11 @@ function FibonacciForm() {
       <button onClick={onSubmit} disabled={loading} style={{ ...buttonStyle, opacity: loading ? 0.6 : 1 }}>
         {loading ? "Calcul..." : "Calculează"}
       </button>
-      {result !== null && <p style={{ marginTop: 12 }}>Rezultat: {result}</p>}
+      {result !== null && (
+        <div style={resultStyle}>
+          <strong>Rezultat:</strong> {result}
+        </div>
+      )}
     </Box>
   );
 }
@@ -156,17 +173,17 @@ function FibonacciForm() {
 export default function MathWorkerUI() {
   return (
     <div style={{ width: "100%", minHeight: "100vh", background: "#f5f6fa", display: "flex", flexDirection: "column", alignItems: "center", padding: 32, boxSizing: "border-box" }}>
-      {/* Titlu */}
+    
       <h1 style={{ fontSize: 32, margin: "0 0 32px", textAlign: "center" }}>Math Worker</h1>
 
-      {/* Carduri alăturate */}
+      
       <div style={{ display: "flex", gap: 24, flexWrap: "wrap", justifyContent: "center" }}>
         <PowForm />
         <FactorialForm />
         <FibonacciForm />
       </div>
 
-      {/* Info backend */}
+      
       <p style={{ marginTop: 40, fontSize: 12, color: "#666" }}>Backend: {API_BASE}</p>
     </div>
   );

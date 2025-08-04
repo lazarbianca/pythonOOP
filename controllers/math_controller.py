@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+
 from models.request_models import (
     PowRequest, FactorialRequest, FibonacciRequest, JobResponse
 )
