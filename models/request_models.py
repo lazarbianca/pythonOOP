@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-
+from typing import Optional
 
 class PowRequest(BaseModel):
     base: float
@@ -17,4 +17,4 @@ class FibonacciRequest(BaseModel):
 class JobResponse(BaseModel):
     job_id: str
     status: str
-    result: float | None = None
+    result: Optional[str] = None 
